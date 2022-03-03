@@ -1,0 +1,9 @@
+git cmds
+
+git status
+
+git add Common/Version.h
+
+git commit -m "crime log checkbox add"
+
+git push origin master

@@ -1,0 +1,27 @@
+{
+  "name": "study1",
+  "version": "1.0.0",
+  "description": "nodejsstudy",
+  "main": "Untitled-1.js",
+  "scripts": {
+    "start": "node ./bin/www.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yoon",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/router": "9.4.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "koa": "2.13.0",
+    "koa-ejs": "4.3.0"
+  },
+  "bin": {
+    "study1": "bin/www.js"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}

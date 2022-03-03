@@ -1,5 +1,6 @@
 
 //express 로 서버 라우팅
+const bodyParser = require("body-parser");
 const express = require("express");
 const app= express();
 const home = require("./routes/home"); // routing
@@ -8,7 +9,12 @@ const PORT = 3000;
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
 app.use("/", home);  // 미들웨어 등록
+
+app.use(express.static(`${__dirname}/public`));
 
 module.exports = app;
 

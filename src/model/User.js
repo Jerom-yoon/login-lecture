@@ -5,13 +5,13 @@ class User{
         this.body = body;
     }
     login(){
-        const body = this.body;
+        const client = this.body;
         const {id,pw} =
-        UserStorage.getUserinfo(body.id);
+        UserStorage.getUserinfo(client.id);
         
         if(id){
-            if(id===body.id &&
-                pw=== body.pw ){
+            if(id===client.id &&
+                pw=== client.pw ){
                     return {success:true};
                 }
             else
@@ -20,6 +20,11 @@ class User{
         }
         return {success:false,
             msg:"id incorrect",};
+    }
+
+    register(){
+        const client = this.body;
+        UserStorage.save(client);
     }
 }
 

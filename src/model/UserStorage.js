@@ -1,15 +1,25 @@
 "use strict";
 
-class UserStorage{
-    
-    static #users = {
-        id:["woorimIT", "나개발", "김팀장"],
-        pw:["1234","1234","1234"],
-        name:["1","2","3"],
-    };
+const fs = require("fs").promises;
 
-    static getUsers(...fields)  {  
-        const users = this.#users;
+class UserStorage{
+ 
+    static #getuserInfo(data, id){        
+        const users = JSON.parse(data);
+        console.log(id);
+        const idx = users.id.indexOf(id);
+        const usersKeys = Object.keys(users);
+        const userInfo = usersKeys.reduce((newUser, info)=>{
+            newUser[info] = users[info][idx];                
+            return newUser;
+        },{});
+        return  userInfo;
+    }
+
+    static #getUsers(data, isAll, fields){   
+        const users = JSON.parse(data);  
+        if(isAll) return users;   
+
         const newUsers = fields.reduce((newUsers,field)=> {
             if(users.hasOwnProperty(field)){
                 newUsers[field] = users[field];
@@ -18,25 +28,34 @@ class UserStorage{
         },{});     
         return newUsers;
     }
-
-    static getUserinfo(id){
-        const users = this.#users;
-        const idx = users.id.indexOf(id);
-        const usersKeys = Object.keys(users);
-        const userInfo = usersKeys.reduce((newUser, info)=>{
-            newUser[info] = users[info][idx];
-            
-            return newUser;
-        },{});
-        return  userInfo;
+    static getUsers(isAll,...fields)  {  
+        return fs.readFile("./src/database/users.json")
+        .then((data)=>{
+            return this.#getUsers(data, isAll,fields);
+        })
+        .catch(console.error);
     }
 
-    static save(userInfo){
-        const users = this.#users;
-        users.id.push(userInfo.id);
-        users.pw.push(userInfo.pw);
-        users.name.push(userInfo.name);
-        console.log(users);
+    static getUserinfo(id){
+        return fs.readFile("./src/database/users.json")
+        .then((data)=>{
+            return this.#getuserInfo(data, id);
+        })
+        .catch(console.error);
+    }
+
+    static async save(userInfo){
+        const users = await this.getUsers(true);
+
+        if(users.id.includes(userInfo.id)){
+            throw "아이디 중복";
+        }
+            users.id.push(userInfo.id);
+            users.pw.push(userInfo.pw);
+            users.name.push(userInfo.name);
+        
+        fs.writeFile("./src/database/users.json",JSON.stringify(users));
+        return {success:true};
     }
 }
 

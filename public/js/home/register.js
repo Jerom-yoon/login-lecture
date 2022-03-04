@@ -12,7 +12,7 @@ registerBtn.addEventListener("click",register);
 
 function register(){
     if(!id.value)    return alert("아이디를 입력하세요.");
-    if(pw!= pwconf)    return alert("비번이 다릅니다.");
+    if(pw.value != pwconf.value)    return alert("비번이 다릅니다.");
     const req = {
         id: id.value,
         pw:pw.value,

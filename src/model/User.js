@@ -4,10 +4,9 @@ class User{
     constructor(body){
         this.body = body;
     }
-    login(){
+    async login(){
         const client = this.body;
-        const {id,pw} =
-        UserStorage.getUserinfo(client.id);
+        const {id,pw} = await UserStorage.getUserinfo(client.id);
         
         if(id){
             if(id===client.id &&
@@ -22,9 +21,17 @@ class User{
             msg:"id incorrect",};
     }
 
-    register(){
+    async register(){
         const client = this.body;
-        UserStorage.save(client);
+        try{
+            const response = await UserStorage.save(client);
+            return response;
+        } catch(err){
+            const a = {success : false , msg:err};
+            console.log(typeof a.msg);
+            return a;
+        }
+
     }
 }
 

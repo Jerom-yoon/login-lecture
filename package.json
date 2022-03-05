@@ -20,7 +20,8 @@
     "koa-ejs": "4.3.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
-    "stack": "^0.1.0"
+    "stack": "^0.1.0",
+    "winston": "^3.6.0"
   },
   "bin": {
     "study1": "bin/www.js"

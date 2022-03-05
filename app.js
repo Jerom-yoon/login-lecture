@@ -7,11 +7,13 @@ const dotenv=require("dotenv");
 dotenv.config();
 const home = require("./routes/home"); // routing
 const accessLogStream = require("./src/config/log");
+const logger = require("./src/config/logger");
 
 const app= express();
 // app setting
 app.set("views", "./views");
 app.set("view engine", "ejs");
+logger.error("hello everyone");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));

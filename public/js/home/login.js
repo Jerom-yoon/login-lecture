@@ -27,6 +27,7 @@ function login(){
             location.href = "/";
         }
         else{
+            if(res.err) return alert(res.err);
             alert(res.msg);
         }
     })

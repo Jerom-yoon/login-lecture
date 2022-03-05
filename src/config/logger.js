@@ -5,8 +5,8 @@ const printFormat = {
     file : printf(({timestamp, label, level, message})=>{
             return `${timestamp}[${label}]:${level} :${message}`;
         }) ,   
-    console: printf(({label, level, message})=>{
-        return `[${label}]:${level} :${message}`;
+    console: printf(({ level, message})=>{
+        return `${level} :${message}`;
     }), 
 };
 
@@ -46,6 +46,10 @@ const opts = {
 const logger = createLogger({
     transports:[opts.file],
 });
+
+logger.stream = {
+    write:(message)=> logger.info(message),
+};
 
 if(process.env.NODE_ENV !== "production")
 {

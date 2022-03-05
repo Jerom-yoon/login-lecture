@@ -17,7 +17,7 @@ logger.error("hello everyone");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(morgan('common',{stream:accessLogStream}));
+app.use(morgan('common',{stream:logger.stream}));
 app.use(morgan('dev'));
 
 

@@ -42,9 +42,11 @@ class UserStorage{
         return new Promise((resolve, reject)=>{
             // db 접근해서 정보 가져오기
             db.query("SELECT * FROM users WHERE id = ?",[id],(err,data)=>{
-                console.log(data[0]);
-                if(err) reject(`${err}`);
-                resolve(data[0]);
+                if(err) {
+                    //console.log(err.sqlMessage);
+                    reject(`${err}`);
+                }
+                else resolve(data[0]);
             });
         });
         
@@ -59,10 +61,12 @@ class UserStorage{
         return new Promise((resolve, reject)=>{
             // db 접근해서 정보 가져오기
             const query = "INSERT INTO users(id,name,psword) values(?,?,?)";
-            db.query(query,[userInfo.id,userInfo.name,userInfo.pw],(err,data)=>{
+            db.query(query,[userInfo.id,userInfo.name,userInfo.pw],(err)=>{
                 
-                if(err) reject(`${err}`);
-                resolve({success:true});
+                if(err) {
+                    reject(`${err}`);
+                }
+                else resolve({success:true});
             });
         });
         // const users = await this.getUsers(true);

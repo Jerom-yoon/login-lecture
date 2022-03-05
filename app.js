@@ -2,19 +2,22 @@
 //express 로 서버 라우팅
 const bodyParser = require("body-parser");
 const express = require("express");
-
+var morgan = require('morgan')
 const dotenv=require("dotenv");
 dotenv.config();
+const home = require("./routes/home"); // routing
+const accessLogStream = require("./src/config/log");
 
 const app= express();
-const home = require("./routes/home"); // routing
-
 // app setting
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(morgan('common',{stream:accessLogStream}));
+app.use(morgan('dev'));
+
 
 app.use("/", home);  // 미들웨어 등록
 

@@ -60,7 +60,7 @@ class UserStorage{
             // db 접근해서 정보 가져오기
             const query = "INSERT INTO users(id,name,psword) values(?,?,?)";
             db.query(query,[userInfo.id,userInfo.name,userInfo.pw],(err,data)=>{
-                console.log(data[0]);
+                
                 if(err) reject(`${err}`);
                 resolve({success:true});
             });

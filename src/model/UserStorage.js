@@ -1,7 +1,9 @@
 "use strict";
 
 const fs = require("fs").promises;
-
+const { rejects } = require("assert");
+const { resolve } = require("path");
+const db = require("../config/db");
 class UserStorage{
  
     static #getuserInfo(data, id){        
@@ -28,33 +30,51 @@ class UserStorage{
         },{});     
         return newUsers;
     }
-    static getUsers(isAll,...fields)  {  
-        return fs.readFile("./src/database/users.json")
-        .then((data)=>{
-            return this.#getUsers(data, isAll,fields);
-        })
-        .catch(console.error);
-    }
+    //static getUsers(isAll,...fields)  {  
+        // return fs.readFile("./src/database/users.json")
+        // .then((data)=>{
+        //     return this.#getUsers(data, isAll,fields);
+        // })
+        // .catch(console.error);
+    //}
 
     static getUserinfo(id){
-        return fs.readFile("./src/database/users.json")
-        .then((data)=>{
-            return this.#getuserInfo(data, id);
-        })
-        .catch(console.error);
+        return new Promise((resolve, reject)=>{
+            // db 접근해서 정보 가져오기
+            db.query("SELECT * FROM users WHERE id = ?",[id],(err,data)=>{
+                console.log(data[0]);
+                if(err) reject(`${err}`);
+                resolve(data[0]);
+            });
+        });
+        
+        // return fs.readFile("./src/database/users.json")
+        // .then((data)=>{
+        //     return this.#getuserInfo(data, id);
+        // })
+        // .catch(console.error);
     }
 
     static async save(userInfo){
-        const users = await this.getUsers(true);
+        return new Promise((resolve, reject)=>{
+            // db 접근해서 정보 가져오기
+            const query = "INSERT INTO users(id,name,psword) values(?,?,?)";
+            db.query(query,[userInfo.id,userInfo.name,userInfo.pw],(err,data)=>{
+                console.log(data[0]);
+                if(err) reject(`${err}`);
+                resolve({success:true});
+            });
+        });
+        // const users = await this.getUsers(true);
 
-        if(users.id.includes(userInfo.id)){
-            throw "아이디 중복";
-        }
-            users.id.push(userInfo.id);
-            users.pw.push(userInfo.pw);
-            users.name.push(userInfo.name);
+        // if(users.id.includes(userInfo.id)){
+        //     throw "아이디 중복";
+        // }
+        //     users.id.push(userInfo.id);
+        //     users.pw.push(userInfo.pw);
+        //     users.name.push(userInfo.name);
         
-        fs.writeFile("./src/database/users.json",JSON.stringify(users));
+        // fs.writeFile("./src/database/users.json",JSON.stringify(users));
         return {success:true};
     }
 }

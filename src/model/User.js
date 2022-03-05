@@ -6,19 +6,23 @@ class User{
     }
     async login(){
         const client = this.body;
-        const {id,pw} = await UserStorage.getUserinfo(client.id);
-        
-        if(id){
-            if(id===client.id &&
-                pw=== client.pw ){
-                    return {success:true};
-                }
-            else
-                return {success:false,
-                msg:"pw incorrect",};
+        try{
+            const {id,pw} = await UserStorage.getUserinfo(client.id);
+            
+            if(id){
+                if(id===client.id &&
+                    pw=== client.pw ){
+                        return {success:true};
+                    }
+                else
+                    return {success:false,
+                    msg:"pw incorrect",};
+            }
+            return {success:false, msg:"id incorrect",};
+        }catch(err){
+            return {success:false, msg:err};
         }
-        return {success:false,
-            msg:"id incorrect",};
+    
     }
 
     async register(){

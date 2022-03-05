@@ -12,10 +12,12 @@
   "dependencies": {
     "@koa/router": "9.4.0",
     "body-parser": "^1.19.2",
+    "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "koa": "2.13.0",
-    "koa-ejs": "4.3.0"
+    "koa-ejs": "4.3.0",
+    "mysql": "^2.18.1"
   },
   "bin": {
     "study1": "bin/www.js"

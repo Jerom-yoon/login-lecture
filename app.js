@@ -2,9 +2,13 @@
 //express 로 서버 라우팅
 const bodyParser = require("body-parser");
 const express = require("express");
+
+const dotenv=require("dotenv");
+dotenv.config();
+
 const app= express();
 const home = require("./routes/home"); // routing
-const PORT = 3000;
+
 // app setting
 app.set("views", "./views");
 app.set("view engine", "ejs");

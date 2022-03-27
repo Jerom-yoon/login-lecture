@@ -2,7 +2,7 @@
 
 const id = document.querySelector("#id"),
     pw = document.querySelector("#pw"),
-    loginBtn = document.querySelector("button");
+    loginBtn = document.querySelector("#btn");
 
 loginBtn.addEventListener("click",login);
 
@@ -11,27 +11,24 @@ function login(){
         id: id.value,
         pw:pw.value,
     };
-    console.log(id.value);
-        
     fetch("/login", {
-        method:"POST",
-        headers:{
+        method: "POST",
+        headers: {
             "Content-Type":"application/json",
         },
-        body:JSON.stringify(req),
+        body: JSON.stringify(req),
     })
-    .then((res)=>res.json())
-    .then((res)=>{
-        if(res.success){
-            alert("login");
+    .then((response) => response.json())
+    .then((response) => {              
+        if(response.success){    
             location.href = "/";
         }
         else{
-            if(res.err) return alert(res.err);
-            alert(res.msg);
+            if(response.err) return alert(response.err);
+            alert(response.msg);
         }
     })
     .catch((err)=>{
-        console.error(new Error("login error"));
+        console.error(err);        
     });
 }
